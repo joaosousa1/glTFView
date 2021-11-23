@@ -8,7 +8,7 @@ This module insert a (glft or glb) file in web page, add a shadow to the object 
 
 Tag properties:
 
-*  **![#f03c15] glTFfile="&lt;path&gt;":** path to file 3d.
+*  **glTFfile="&lt;path&gt;":** path to file 3d.
 
 *  **auto:** if present the object auto rotate.
  
