@@ -6,7 +6,7 @@ en
 
 This module insert a (glft or glb) file in web page, add a shadow to the object and create a "RoomEnvironment" (light). Just add a tag width class **glTFView** and insert the properties.
 
-Tag properties:
+Attributes:
 
 *  **glTFfile="&lt;path&gt;":** path to file 3d.
 
@@ -22,13 +22,15 @@ Tag properties:
  
 *  **transparent:** if present remove canvas background but remove also the shadow.
  
-*  **bg="&lt;#hex&gt;":** define background color. (if not present default white)
+*  **bg="&lt;#hex&gt;":** define background color. (if not present default is white)
 
 *  **scale="&lt;float&gt;":** define scale. (if not present default 1.0)
 
 Example:
 
 `<div class="glTFView" glTFFile="models/model.gltf" auto zoom w="300" h="300"></div> `
+
+[Demo](https://joaosousa1.github.io/glTFView/)
 
 ---
 pt
@@ -40,7 +42,7 @@ pt
 
 Este modulo carrega um ficheiro 3D (glft ou glb), adiciona ao canvas um cursor grabbing para rodar o obcjeto, coloca uma sombra no modelo, e cria um "RoomEnvironment". Basta definir uma tag com a classe de **glTFView** e adicionar as propriedades.
 
-Propriedades da tag:
+Atributos da tag:
 
 *  **glTFfile="&lt;caminho&gt;":** caminho para o ficheiro 3d.
 
@@ -63,3 +65,5 @@ Propriedades da tag:
 Exemplo:
 
 `<div class="glTFView" glTFFile="models/model.gltf" auto zoom w="300" h="300"></div> `
+
+[Demo](https://joaosousa1.github.io/glTFView/)
