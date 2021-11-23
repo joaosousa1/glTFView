@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>glTF View</title>
+    <script type="module" src="./glTFView.js"></script>
+</head>
+<style>
+    :root {
+        --main-color: #a4e3de;
+        --color1: #d29418;
+        --color2: #ff5ee8;
+        --color3: #548ee5;
+        --color4: #dfdfdf;
+    }
+    * {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        box-sizing: border-box;
+    }
+    body {
+        display: grid;
+        margin: 0;
+        height: 100vh;
+        background-color: var(--color4);
+    }
+    .glTFView {
+        display: grid;
+        place-content: center;
+    }
+
+    header {
+        height: 70px;
+        width: 100%;
+        position: sticky;
+        top: 0;
+        left: 0;
+        padding: 10px;
+        font-size: 2em;
+        display: grid;
+        place-items: center;
+        height: 1fr;
+    }
+    .barra {
+        background-color: var(--main-color);
+        color: white;
+        font-family: roboto;
+        padding: 20px;
+        height: auto;
+    }
+
+    .barra h2 {
+        color: var(--color3);
+    }
+    
+    .barra a {
+        color: var(--color1);
+        font-size: initial;
+    }
+    .info {
+        color: var(--color2);
+        padding: 20px 20px 50px;
+        background-color: #363636;
+        font-family: roboto;
+    }
+
+    ul {
+        margin-left: 30px;
+    }
+
+    li {
+        color: var(--main-color);
+        font-weight: bold;
+    }
+    li span {
+        color: var(--color2);
+    }
+
+    code {
+        color: var(--color3);
+    }
+</style>
+<body>
+    <header class="barra">
+        glTFView
+    </header>
+    <div class="glTFView" glTFfile="./models/model.gltf" auto bg="#dfdfdf" scale="1" w="200" h="200"></div>
+    <div class="barra">
+        <h2>
+            Modelado no Blender
+        </h2>
+        <h2>
+            Renderizado com Three.js <span><a href="https://threejs.org" target="_blank" ref="noreferrer noopener" >https://threejs.org</a></span>
+        </h2>
+        <h2>
+            glTF View (c) João Sousa 2021
+        </h2>
+    </div>
+
+    <div class="info">
+        <p>Este modulo carrega um ficheiro 3D (glft ou glb), adiciona ao canvas um cursor grabbing para rodar o objecto, coloca uma sombra no modelo, e cria um "RoomEnvironment". Tudo com o auxílio do Three.js.</p>
+        <p>Basta definir uma tag com a classe de glTFView e adicionar as propriedades.</p>
+        <p>Propiedades da tag:</p>
+        <ul>
+            <li>glTFfile="&lt;caminho&gt;": <span>caminho para o ficheiro 3d. </span></li>
+            <li>auto: <span>se presente o ficheiro roda automaticamente.</span></li>
+            <li>w="&lt;int&gt;": <span>largura do canvas</span>.</li>
+            <li>h=&lt;int&gt;": <span>altura do canvas.</span></li>
+            <li>zoom: <span>se presente, permite utilizar o zoom com o mouse whell.</span></li>
+            <li>resize: <span>se presente, redimensiona o modelo 3d caso a pagina seja redimensionada.</span></li>
+            <li>transparent: <span>se presente, o fundo do canvas fica transparente mas não é adicionado uma sombra.</span></li>
+            <li>bg="&lt;#hex&gt;": <span>define a cor do background (esta opção é ignorada quando usado a opção "transparent"), e quando não é definida por omissão a cor de background é branco.</span></li>
+            <li>scale="&lt;float&gt;": <span>define o tamanho do objecto. (permite redimensinar caso não apareça na camera)</span></li>
+        </ul>
+        <p>Exemplo:</p>
+            <code>
+                &lt;div class="glTFView" glTFFile="models/model.gltf" auto zoom w="300" h="300"&gt&lt/div&gt;
+            </code>
+    </div>
+</body>
+</html>
