@@ -4,7 +4,7 @@ en
 ## Render whith Three.js [https://threejs.org](https://threejs.org)
 ## glTFView (c) João Sousa 2021
 
-This module insert a (glft or glb) file in web page, add a shadow to the object and create a "RoomEnvironment" (light). Just add a tag width class **glTFView** and insert the properties.
+This module insert a (gltf or glb) file in web page, add a shadow to the object and create a "RoomEnvironment" (light). Just add a tag width class **glTFView** and insert the properties.
 
 Attributes:
 
@@ -14,7 +14,7 @@ Attributes:
  
 *  **w="&lt;int&gt;":** canvas width.
  
-*  **h="&lt;int&gt;":** canvas high.
+*  **h="&lt;int&gt;":** canvas height.
  
 *  **zoom:** if present enable zoom (mouse wheel) .
  
@@ -26,9 +26,11 @@ Attributes:
 
 *  **scale="&lt;float&gt;":** define scale. (if not present default 1.0)
 
+*  **ld="&lt;#hex&gt;":** loading wheel color.
+
 Example:
 
-`<div class="glTFView" glTFFile="models/model.gltf" auto zoom w="300" h="300"></div> `
+`<div class="glTFView" glTFfile="models/model.gltf" auto zoom w="300" h="300"></div> `
 
 [Demo](https://joaosousa1.github.io/glTFView/)
 
@@ -40,7 +42,7 @@ pt
 ## glTFView (c) João Sousa 2021
 
 
-Este modulo carrega um ficheiro 3D (glft ou glb), adiciona ao canvas um cursor grabbing para rodar o obcjeto, coloca uma sombra no modelo, e cria um "RoomEnvironment". Basta definir uma tag com a classe de **glTFView** e adicionar as propriedades.
+Este modulo carrega um ficheiro 3D (gltf ou glb), adiciona ao canvas um cursor grabbing para rodar o obcjeto, coloca uma sombra no modelo, e cria um "RoomEnvironment". Basta definir uma tag com a classe de **glTFView** e adicionar as propriedades.
 
 Atributos da tag:
 
@@ -62,8 +64,10 @@ Atributos da tag:
 
 *  **scale="&lt;float&gt;":** define tamanho. (se não estiver presente o default é 1.0)
 
+*  **ld="&lt;#hex&gt;":** define a cor da borda do loading.
+
 Exemplo:
 
-`<div class="glTFView" glTFFile="models/model.gltf" auto zoom w="300" h="300"></div> `
+`<div class="glTFView" glTFfile="models/model.gltf" auto zoom w="300" h="300"></div> `
 
 [Demo](https://joaosousa1.github.io/glTFView/)

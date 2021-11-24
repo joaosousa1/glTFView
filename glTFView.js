@@ -28,7 +28,7 @@ function addModel3D(ele) {
     let H = parseInt(ele.getAttribute("h"));
     //let H = parseInt(ele.style.height);
     let bg = ele.getAttribute("bg");
-    console.log(bg);
+    let ld = ele.getAttribute("ld");
     if (ele.getAttribute("auto") == undefined) {
         auto = false
     } else {
@@ -61,10 +61,45 @@ function addModel3D(ele) {
     let camera, scene, renderer;
     let controls;
 
+    //loading...
+
+    let info = document.createElement("div")
+    info.style.position = "relative";
+    info.style.width = W + "px";
+    info.style.height = H + "px";
+    info.style.animation = "spin 2s linear infinite";
+    
+    let loading = document.createElement("div")
+    loading.classList.add("loader")
+    loading.style.borderBottomColor = ld
+    loading.style.borderTopColor = ld
+    
+    info.appendChild(loading);
+    ele.appendChild(info);
+
     init();
     render();
 
     function init() {
+
+        THREE.DefaultLoadingManager.onStart = function (url, itemsLoaded, itemsTotal) {
+            //console.log('Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.');
+            info.style.display = "block"
+            ele.style.maxHeight = H + "px";
+        };
+        THREE.DefaultLoadingManager.onLoad = function () {
+            console.log('Loading Complete!');
+            info.style.display = "none"
+            ele.style.maxHeight = "initial";
+            
+        };
+        THREE.DefaultLoadingManager.onProgress = function (url, itemsLoaded, itemsTotal) {
+            //console.log('Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.'); 
+        };
+        THREE.DefaultLoadingManager.onError = function (url) {
+            //console.log('There was an error loading ' + url);
+
+        };
 
         renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setPixelRatio(window.devicePixelRatio);
@@ -81,7 +116,6 @@ function addModel3D(ele) {
 
         scene = new THREE.Scene();
         if (!transparent) {
-            console.log(bg);
             scene.background = new THREE.Color(bg);
         } else {
             shadowMesh = createSpotShadowMesh();
@@ -191,7 +225,7 @@ for (let i = 0; i < models.length; i++) {
     addModel3D(models[i])
 }
 
-// adiciona canvas style
+// adiciona canvas style, e spin para o loader
 var estiloCanvas = document.createElement("style");
 estiloCanvas.type = "text/css";
 estiloCanvas.innerHTML = `
@@ -201,5 +235,25 @@ canvas {
 canvas:active {
     cursor: grabbing;
 }
+
+.loader {
+    display: block;
+    border: 3px solid #ffffff00;
+    border-radius: 50%;
+    border-top: 3px solid #494949;
+    border-bottom: 3px solid #494949;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 `
 document.getElementsByTagName('head')[0].appendChild(estiloCanvas);

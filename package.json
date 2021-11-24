@@ -1,0 +1,14 @@
+{
+  "name": "gltfview",
+  "version": "1.0.0",
+  "description": "view 3d files on web browser ",
+  "main": "glTFView.js",
+  "scripts": {
+   "build": "parcel build index.html glTFView.js"
+  },
+  "author": "João Sousa",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel-bundler": "^1.9.4"
+  }
+}

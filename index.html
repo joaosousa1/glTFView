@@ -9,11 +9,12 @@
 </head>
 <style>
     :root {
-        --main-color: #a4e3de;
+        --main-color: #494949;
         --color1: #d29418;
         --color2: #ff5ee8;
         --color3: #548ee5;
         --color4: #dfdfdf;
+        --color5: #b4eae5;
     }
     * {
         margin: 0;
@@ -27,9 +28,14 @@
         height: 100vh;
         background-color: var(--color4);
     }
+    .centro {
+        display: grid;
+        place-items: center;
+    }
     .glTFView {
         display: grid;
-        place-content: center;
+        place-items: center;
+        width: 100%;
     }
 
     header {
@@ -72,7 +78,7 @@
     }
 
     li {
-        color: var(--main-color);
+        color: var(--color5);
         font-weight: bold;
     }
     li span {
@@ -87,7 +93,9 @@
     <header class="barra">
         glTFView
     </header>
-    <div class="glTFView" glTFfile="./models/model.gltf" auto bg="#dfdfdf" scale="1" w="200" h="200"></div>
+    <div class="centro">
+        <div class="glTFView" glTFfile="./models/model.gltf" auto bg="#dfdfdf" ld="#494949" scale="1" w="200" h="200"></div>
+    </div>
     <div class="barra">
         <h2>
             Modelado no Blender
@@ -101,7 +109,7 @@
     </div>
 
     <div class="info">
-        <p>Este modulo carrega um ficheiro 3D (glft ou glb), adiciona ao canvas um cursor grabbing para rodar o objecto, coloca uma sombra no modelo, e cria um "RoomEnvironment". Tudo com o auxílio do Three.js.</p>
+        <p>Este modulo carrega um ficheiro 3D (glTF ou glb), adiciona ao canvas um cursor grabbing para rodar o objecto, coloca uma sombra no modelo, e cria um "RoomEnvironment". Tudo com o auxílio do Three.js.</p>
         <p>Basta definir uma tag com a classe de glTFView e adicionar as propriedades.</p>
         <p>Atributos:</p>
         <ul>
@@ -114,10 +122,11 @@
             <li>transparent: <span>se presente, o fundo do canvas fica transparente mas não é adicionado uma sombra.</span></li>
             <li>bg="&lt;#hex&gt;": <span>define a cor do background (esta opção é ignorada quando usado a opção "transparent"), e quando não é definida por omissão a cor de background é branco.</span></li>
             <li>scale="&lt;float&gt;": <span>define o tamanho do objecto. (permite redimensinar caso não apareça na camera)</span></li>
+            <li>ld="&lt;#hex&gt;": <span>define a cor da borda do do loading</span></li>
         </ul>
         <p>Exemplo:</p>
             <code>
-                &lt;div class="glTFView" glTFFile="models/model.gltf" auto zoom w="300" h="300"&gt&lt/div&gt;
+                &lt;div class="glTFView" glTFfile="models/model.gltf" auto zoom w="300" h="300"&gt&lt/div&gt;
             </code>
     </div>
 </body>
