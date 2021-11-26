@@ -32,6 +32,8 @@ Example:
 
 [Demo](https://joaosousa1.github.io/glTFView/)
 
+[Demo 2](https://joaosousa1.github.io/glTFView/test.html)
+
 ---
 pt
 
@@ -67,3 +69,5 @@ Exemplo:
 `<div class="glTFView" glTFfile="models/model.gltf" auto zoom w="300" h="300"></div> `
 
 [Demo](https://joaosousa1.github.io/glTFView/)
+
+[Demo 2](https://joaosousa1.github.io/glTFView/test.html)
