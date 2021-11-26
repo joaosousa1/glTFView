@@ -147,7 +147,7 @@ function addModel3D(ele) {
             //redimensiona após o loader
             gltf.scene.scale.set( obj_scale, obj_scale, obj_scale);
             scene.add(gltf.scene);
-
+            render()
         });
 
         controls = new OrbitControls(camera, renderer.domElement);
