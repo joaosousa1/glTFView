@@ -1,14 +1,14 @@
 {
   "name": "gltfview",
   "version": "1.0.0",
-  "description": "view 3d files on web browser ",
-  "main": "glTFView.js",
+  "description": "view 3d files on web browser",
   "scripts": {
-   "build": "parcel build index.html glTFView.js"
+    "dev": "parcel index.html test.html glTFView.js",
+    "build": "parcel build index.html test.html glTFView.js --no-source-maps"
   },
   "author": "João Sousa",
   "license": "ISC",
   "devDependencies": {
-    "parcel-bundler": "^1.9.4"
+    "parcel": "^2.0.1"
   }
 }

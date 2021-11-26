@@ -12,13 +12,11 @@ Attributes:
 
 *  **auto:** if present the object auto rotate.
  
-*  **w="&lt;int&gt;":** canvas width.
+*  **w="&lt;int&gt;":** canvas width, if not present use window width.
  
 *  **h="&lt;int&gt;":** canvas height.
  
 *  **zoom:** if present enable zoom (mouse wheel) .
- 
-*  **resize:** if present resize when page resize.
  
 *  **transparent:** if present remove canvas background but remove also the shadow.
  
@@ -50,15 +48,13 @@ Atributos da tag:
 
 *  **auto:** se presente o ficheiro roda automaticamente.
  
-*  **w="&lt;int&gt;":** largura do canvas.
+*  **w="&lt;int&gt;":** largura do canvas, se omitir é redimensionado de acordo com a largura da janela.
  
 *  **h="&lt;int&gt;":** altura do canvas.
  
 *  **zoom:** se presente, permite utilizar o zoom com o mouse whell.
  
-*  **resize:** se presente, redimensiona o modelo 3d caso a pagina seja redimensionada.
- 
-*  **transparent:** se presente, o fundo do canvas fica transparente mas não é adicionado uma sombra.
+*  **transparent:** se presente, o fundo do canvas fica transparente mas não é possível adicionar uma sombra.
  
 *  **bg="&lt;#hex&gt;":** define a cor do background (esta opção é ignorada quando usado a opção "transparent"), e quando não é definida por omissão a cor de background é branco
 

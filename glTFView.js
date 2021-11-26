@@ -15,20 +15,37 @@ import { GLTFLoader } from "./three.js/GLTFLoader.js";
 let models = document.getElementsByClassName("glTFView")
 
 function addModel3D(ele) {
-
+    
     let auto;
     let zoom;
-    let resize;
     let transparent;
     let shadowMesh;
+    let shadowContext;
+    let shadowCanvas;
     let obj_scale;
+    let controls;
+    let camera, scene, renderer;
+    let W, H;
     let fileName = ele.getAttribute("glTFfile");
-    let W = parseInt(ele.getAttribute("w"));
-    //let W = parseInt(ele.style.width);
-    let H = parseInt(ele.getAttribute("h"));
-    //let H = parseInt(ele.style.height);
     let bg = ele.getAttribute("bg");
     let ld = ele.getAttribute("ld");
+    let resize_canvas;
+
+    if (ele.getAttribute("w") == undefined) {
+        if ( window.innerWidth > window.innerHeight ) {
+            W = window.innerWidth / 1.25;
+            H = window.innerHeight / 1.25;
+        } else {
+            W = window.innerWidth / 1.25;
+            H = W;
+        }
+        resize_canvas = true;
+    } else {
+        W = parseInt(ele.getAttribute("w"));
+        H = parseInt(ele.getAttribute("h"));
+        resize_canvas = false;
+    }
+
     if (ele.getAttribute("auto") == undefined) {
         auto = false
     } else {
@@ -39,12 +56,6 @@ function addModel3D(ele) {
         zoom = false
     } else {
         zoom = true
-    }
-
-    if (ele.getAttribute("resize") == undefined) {
-        resize = false
-    } else {
-        resize = true
     }
 
     if (ele.getAttribute("transparent") == undefined) {
@@ -58,11 +69,7 @@ function addModel3D(ele) {
         obj_scale = parseFloat(ele.getAttribute("scale"));
     }
 
-    let camera, scene, renderer;
-    let controls;
-
     //loading...
-
     let info = document.createElement("div")
     info.style.position = "relative";
     info.style.width = W + "px";
@@ -74,6 +81,7 @@ function addModel3D(ele) {
     loading.style.borderBottomColor = ld
     loading.style.borderTopColor = ld
     
+    ele.style.overflow = "hidden";
     info.appendChild(loading);
     ele.appendChild(info);
 
@@ -91,14 +99,12 @@ function addModel3D(ele) {
             console.log('Loading Complete!');
             info.style.display = "none"
             ele.style.maxHeight = "initial";
-            
         };
         THREE.DefaultLoadingManager.onProgress = function (url, itemsLoaded, itemsTotal) {
             //console.log('Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.'); 
         };
         THREE.DefaultLoadingManager.onError = function (url) {
             //console.log('There was an error loading ' + url);
-
         };
 
         renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -106,7 +112,7 @@ function addModel3D(ele) {
         renderer.setSize(W, H);
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         renderer.outputEncoding = THREE.sRGBEncoding;
-        //document.body.appendChild(renderer.domElement);
+        //document.body.appendChild();
         ele.appendChild(renderer.domElement);
 
         camera = new THREE.PerspectiveCamera(45, W / H, 0.25, 20); //ultimo parametro alcance da camera
@@ -115,11 +121,17 @@ function addModel3D(ele) {
         const pmremGenerator = new THREE.PMREMGenerator(renderer);
 
         scene = new THREE.Scene();
+
+        //só dá para adicionar a sombra se o fundo não for transparente
         if (!transparent) {
             scene.background = new THREE.Color(bg);
-        } else {
             shadowMesh = createSpotShadowMesh();
+            shadowMesh.position.y = - (1.1 * obj_scale);
+            shadowMesh.position.z = - (0.25 * obj_scale);
+            shadowMesh.scale.setScalar(2 * obj_scale);
+            scene.add(shadowMesh);
         }
+
         scene.environment = pmremGenerator.fromScene(
             new RoomEnvironment(),
             0.04
@@ -136,12 +148,6 @@ function addModel3D(ele) {
             gltf.scene.scale.set( obj_scale, obj_scale, obj_scale);
             scene.add(gltf.scene);
 
-            shadowMesh = createSpotShadowMesh();
-            shadowMesh.position.y = -1.1;
-            shadowMesh.position.z = -0.25;
-            shadowMesh.scale.setScalar(2);
-            scene.add(shadowMesh);
-            render();
         });
 
         controls = new OrbitControls(camera, renderer.domElement);
@@ -158,32 +164,32 @@ function addModel3D(ele) {
         }
         controls.target.set(0, -0.15, -0.2);
         controls.update();
-        if ( resize ) {
+        if ( resize_canvas ) {
             window.addEventListener("resize", onWindowResize);
         }
     }
 
     function createSpotShadowMesh() {
-        const canvas = document.createElement("canvas");
-        canvas.width = 130 * obj_scale;
-        canvas.height = 130 * obj_scale;
+        shadowCanvas = document.createElement("canvas");
+        shadowCanvas.width = 200 * obj_scale;
+        shadowCanvas.height = 200 * obj_scale;
 
-        const context = canvas.getContext("2d");
-        const gradient = context.createRadialGradient(
-            canvas.width / 2,
-            canvas.height / 2,
+        shadowContext = shadowCanvas.getContext("2d");
+        const gradient = shadowContext.createRadialGradient(
+            shadowCanvas.width / 2,
+            shadowCanvas.height / 2,
             0,
-            canvas.width / 2,
-            canvas.height / 2,
-            canvas.width / 2
+            shadowCanvas.width / 2,
+            shadowCanvas.height / 2,
+            shadowCanvas.width / 2
         );
         gradient.addColorStop(0.1, "rgba(130,130,130,1)");
         gradient.addColorStop(1, "rgba(255,255,255,1)");
 
-        context.fillStyle = gradient;
-        context.fillRect(0, 0, canvas.width, canvas.height);
+        shadowContext.fillStyle = gradient;
+        shadowContext.fillRect(0, 0, shadowCanvas.width, shadowCanvas.height);
 
-        const shadowTexture = new THREE.CanvasTexture(canvas);
+        const shadowTexture = new THREE.CanvasTexture(shadowCanvas);
 
         const geometry = new THREE.PlaneGeometry();
         const material = new THREE.MeshBasicMaterial({
@@ -199,12 +205,19 @@ function addModel3D(ele) {
     }
 
     function onWindowResize() {
-        let W = window.innerWidth / 2;
-        let H = window.innerWidth / 2;
+        //W = ele.clientWidth // só funciona ao aumentar 
+        if ( window.innerWidth > window.innerHeight ) {
+            W = window.innerWidth / 1.25;
+            H = window.innerHeight / 1.25;
+        } else {
+            W = window.innerWidth / 1.25;
+            H = W;
+        }
         camera.aspect = W / H;
         camera.updateProjectionMatrix();
         renderer.setSize(W, H);
         render();
+
     }
 
     function render() {
