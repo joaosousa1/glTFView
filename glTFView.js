@@ -13,6 +13,7 @@ import { GLTFLoader } from "./three.js/GLTFLoader.js";
 //three.js-master/examples/jsm/loaders/GLTFLoader.js";
 
 let models = document.getElementsByClassName("glTFView")
+let autoRotateSpeed = 10.0;
 
 function addModel3D(ele) {
     
@@ -162,7 +163,7 @@ function addModel3D(ele) {
         } else {
             controls.enableZoom = false;
         }
-        controls.target.set(0, -0.15, -0.2);
+        controls.target.set(0, 0, 0);
         controls.update();
         if ( resize_canvas ) {
             window.addEventListener("resize", onWindowResize);
@@ -228,6 +229,14 @@ function addModel3D(ele) {
     function animate() {
         requestAnimationFrame(animate);
         renderer.render(scene, camera);
+        
+        if (autoRotateSpeed > 10.0) { // auto rotate rápido no início
+            autoRotateSpeed -= 1;
+            controls.autoRotateSpeed = autoRotateSpeed;
+        } else {
+            autoRotateSpeed = 10.0;
+        }
+        
         controls.update();
     }
     if (auto)
@@ -236,6 +245,11 @@ function addModel3D(ele) {
 
 for (let i = 0; i < models.length; i++) {
     addModel3D(models[i])
+}
+
+// Aumenta a velocidade de rotação por um breve momento
+window.setCamRotateSpeed = function () {
+    autoRotateSpeed = 150.0;
 }
 
 // adiciona canvas style, e spin para o loader
